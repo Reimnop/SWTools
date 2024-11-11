@@ -1,8 +1,8 @@
 {
   "text.config.swtools.title": "SW Tools",
-  "text.config.swtools.option.enableChatFilter": "Enable Chat Filter",
   "text.config.swtools.category.chatFilter": "Chat Filter",
-  "text.config.swtools.option.chatFilter.filterRegex": "Filter Regex",
+  "text.config.swtools.option.chatFilter.enable": "Enable",
+  "text.config.swtools.option.chatFilter.filterPatterns": "Filter Patterns",
   "text.config.swtools.option.chatFilter.filterMode": "Filter Mode",
   "text.config.swtools.enum.filterMode.allow": "Allow",
   "text.config.swtools.enum.filterMode.block": "Block"

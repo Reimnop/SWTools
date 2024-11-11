@@ -52,24 +52,9 @@ public class SWToolsClient implements ClientModInitializer {
     }
 
     private static List<BaseModule> loadModules(SWTConfig config) {
-        var chatFilter = new ChatFilterModule(config.chatFilter);
-        setActiveStates(chatFilter, config);
-        startWatchingActiveStates(chatFilter, config);
-
         var modules = new ArrayList<BaseModule>();
-        modules.add(chatFilter);
+        modules.add(new ChatFilterModule(config.chatFilter));
 
         return modules;
-    }
-
-    private static void setActiveStates(ChatFilterModule chatFilter, SWTConfig config) {
-        chatFilter.setActive(config.enableChatFilter());
-    }
-
-    private static void startWatchingActiveStates(ChatFilterModule chatFilter, SWTConfig config) {
-        config.subscribeToEnableChatFilter(active -> {
-            chatFilter.setActive(active);
-            SWTools.LOGGER.info("Set '{}' active state to '{}'", chatFilter.getName(), active);
-        });
     }
 }

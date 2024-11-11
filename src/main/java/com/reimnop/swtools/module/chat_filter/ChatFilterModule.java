@@ -4,18 +4,29 @@ import com.reimnop.swtools.SWTConfig;
 import com.reimnop.swtools.module.BaseModule;
 import net.minecraft.text.Text;
 
+import java.util.List;
 import java.util.regex.Pattern;
 
 public class ChatFilterModule extends BaseModule {
-
     private final SWTConfig.ChatFilter config;
-    private Pattern filterPattern;
+    private List<Pattern> filterPatterns;
 
     public ChatFilterModule(SWTConfig.ChatFilter config) {
         this.config = config;
 
-        filterPattern = Pattern.compile(config.filterRegex());
-        config.subscribeToFilterRegex(regex -> filterPattern = Pattern.compile(regex));
+        filterPatterns = config.filterPatterns().stream()
+                .map(Pattern::compile)
+                .toList();
+
+        config.subscribeToFilterPatterns(filterPatterns ->
+                this.filterPatterns = filterPatterns.stream()
+                    .map(Pattern::compile)
+                    .toList());
+    }
+
+    @Override
+    public boolean getActive() {
+        return config.enable();
     }
 
     @Override
@@ -26,11 +37,14 @@ public class ChatFilterModule extends BaseModule {
     @Override
     public boolean allowChatMessage(Text message) {
         var string = message.getString();
-        var matcher = filterPattern.matcher(string);
-        if (matcher.matches()) {
+        if (matchEither(string, filterPatterns)) {
             return config.filterMode() == ChatFilterConfig.FilterMode.ALLOW;
         } else {
             return config.filterMode() == ChatFilterConfig.FilterMode.BLOCK;
         }
+    }
+
+    private static boolean matchEither(String string, List<Pattern> patterns) {
+        return patterns.stream().anyMatch(pattern -> pattern.matcher(string).matches());
     }
 }
