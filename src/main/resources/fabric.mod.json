@@ -21,7 +21,7 @@
     "swtools.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=${loader_version}",
+    "fabricloader": "*",
     "fabric": "*",
     "minecraft": "${minecraft_version}"
   }
