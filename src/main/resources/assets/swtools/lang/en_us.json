@@ -5,5 +5,9 @@
   "text.config.swtools.option.chatFilter.filterPatterns": "Filter Patterns",
   "text.config.swtools.option.chatFilter.filterMode": "Filter Mode",
   "text.config.swtools.enum.filterMode.allow": "Allow",
-  "text.config.swtools.enum.filterMode.block": "Block"
+  "text.config.swtools.enum.filterMode.block": "Block",
+  "category.swtools": "SW Tools",
+  "key.swtools.open_dm_gui": "Open Direct Message GUI",
+  "title.swtools.dms": "Direct Messages",
+  "title.swtools.dm_recipients": "Recipients"
 }

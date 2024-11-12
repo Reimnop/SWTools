@@ -1,11 +1,13 @@
 package com.reimnop.swtools.client;
 
 import com.reimnop.swtools.SWTConfig;
-import com.reimnop.swtools.SWTStreamUtil;
+import com.reimnop.swtools.util.SWTStreamUtil;
 import com.reimnop.swtools.SWTools;
 import com.reimnop.swtools.module.BaseModule;
 import com.reimnop.swtools.module.chat_filter.ChatFilterModule;
+import com.reimnop.swtools.module.dm_gui.DmGuiModule;
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.message.v1.ClientReceiveMessageEvents;
 
 import java.util.ArrayList;
@@ -45,6 +47,12 @@ public class SWToolsClient implements ClientModInitializer {
             }
             return true;
         });
+
+        ClientTickEvents.END_CLIENT_TICK.register(client -> {
+            for (var module : SWTStreamUtil.wrapStream(streamActiveModules())) {
+                module.onTick(client);
+            }
+        });
     }
 
     private Stream<BaseModule> streamActiveModules() {
@@ -54,6 +62,10 @@ public class SWToolsClient implements ClientModInitializer {
     private static List<BaseModule> loadModules(SWTConfig config) {
         var modules = new ArrayList<BaseModule>();
         modules.add(new ChatFilterModule(config.chatFilter));
+        modules.add(new DmGuiModule(config.dmGui));
+
+        // initialize modules
+        modules.forEach(BaseModule::initialize);
 
         return modules;
     }

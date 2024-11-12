@@ -1,0 +1,134 @@
+<owo-ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/wisp-forest/owo-lib/1.20/owo-ui.xsd">
+    <components>
+        <flow-layout direction="horizontal">
+            <children>
+                <flow-layout direction="vertical">
+                    <children>
+                        <label>
+                            <text translate="true">title.swtools.dm_recipients</text>
+                            <color>black</color>
+                        </label>
+                    </children>
+                    <padding>
+                        <all>6</all>
+                    </padding>
+                    <sizing>
+                        <horizontal method="fixed">96</horizontal>
+                        <vertical method="fixed">238</vertical>
+                    </sizing>
+                    <gap>4</gap>
+                    <surface>
+                        <panel />
+                    </surface>
+                </flow-layout>
+                <flow-layout direction="vertical">
+                    <children>
+                        <label>
+                            <text translate="true">title.swtools.dms</text>
+                            <color>black</color>
+                        </label>
+                        <flow-layout direction="vertical">
+                            <children>
+                                <scroll direction="vertical">
+                                    <flow-layout direction="vertical" id="message-container">
+                                        <children>
+                                        </children>
+                                        <gap>4</gap>
+                                    </flow-layout>
+                                    <sizing>
+                                        <horizontal method="fill">100</horizontal>
+                                        <vertical method="fill">100</vertical>
+                                    </sizing>
+                                </scroll>
+                            </children>
+                            <surface>
+                                <panel-inset />
+                            </surface>
+                            <padding>
+                                <all>4</all>
+                            </padding>
+                            <sizing>
+                                <horizontal method="fixed">320</horizontal>
+                                <vertical method="fixed">192</vertical>
+                            </sizing>
+                        </flow-layout>
+                        <flow-layout direction="horizontal">
+                            <children>
+                                <text-box>
+                                    <max-length>256</max-length>
+                                    <sizing>
+                                        <horizontal method="fixed">300</horizontal>
+                                        <vertical method="fixed">16</vertical>
+                                    </sizing>
+                                    <margins>
+                                        <all>-1</all>
+                                    </margins>
+                                </text-box>
+                                <button>
+                                    <sizing>
+                                        <horizontal method="fixed">16</horizontal>
+                                        <vertical method="fixed">16</vertical>
+                                    </sizing>
+                                </button>
+                            </children>
+                            <gap>4</gap>
+                            <padding>
+                                <all>0</all>
+                            </padding>
+                            <sizing>
+                                <horizontal method="fill">100</horizontal>
+                                <vertical method="fixed">16</vertical>
+                            </sizing>
+                        </flow-layout>
+                    </children>
+                    <padding>
+                        <all>6</all>
+                    </padding>
+                    <gap>4</gap>
+                    <sizing>
+                        <horizontal method="fixed">332</horizontal>
+                        <vertical method="fixed">238</vertical>
+                    </sizing>
+                    <surface>
+                        <panel />
+                    </surface>
+                </flow-layout>
+            </children>
+            <horizontal-alignment>center</horizontal-alignment>
+            <vertical-alignment>center</vertical-alignment>
+            <gap>6</gap>
+            <padding>
+                <all>8</all>
+            </padding>
+        </flow-layout>
+    </components>
+
+    <templates>
+        <template name="message">
+            <flow-layout direction="horizontal">
+                <children>
+                    <flow-layout direction="horizontal">
+                        <children>
+                            <label>
+                                <text>{{text}}</text>
+                                <color>black</color>
+                            </label>
+                        </children>
+                        <padding>
+                            <all>4</all>
+                        </padding>
+                        <horizontal-alignment>{{align}}</horizontal-alignment>
+                        <surface>
+                            <panel />
+                        </surface>
+                    </flow-layout>
+                </children>
+                <horizontal-alignment>{{align}}</horizontal-alignment>
+                <sizing>
+                    <horizontal method="fill">100</horizontal>
+                </sizing>
+            </flow-layout>
+        </template>
+    </templates>
+</owo-ui>

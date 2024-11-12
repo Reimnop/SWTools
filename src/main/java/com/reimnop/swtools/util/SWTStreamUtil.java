@@ -1,4 +1,4 @@
-package com.reimnop.swtools;
+package com.reimnop.swtools.util;
 
 import java.util.stream.Stream;
 
