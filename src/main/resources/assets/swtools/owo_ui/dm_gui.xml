@@ -9,6 +9,19 @@
                             <text translate="true">title.swtools.dm_recipients</text>
                             <color>black</color>
                         </label>
+                        <scroll direction="vertical">
+                            <flow-layout direction="vertical" id="recipient-container">
+                                <children>
+                                </children>
+                            </flow-layout>
+                            <sizing>
+                                <horizontal method="fill">100</horizontal>
+                                <vertical method="fixed">212</vertical>
+                            </sizing>
+                            <surface>
+                                <panel-inset />
+                            </surface>
+                        </scroll>
                     </children>
                     <padding>
                         <all>6</all>
@@ -28,31 +41,23 @@
                             <text translate="true">title.swtools.dms</text>
                             <color>black</color>
                         </label>
-                        <flow-layout direction="vertical">
-                            <children>
-                                <scroll direction="vertical">
-                                    <flow-layout direction="vertical" id="message-container">
-                                        <children>
-                                        </children>
-                                        <gap>4</gap>
-                                    </flow-layout>
-                                    <sizing>
-                                        <horizontal method="fill">100</horizontal>
-                                        <vertical method="fill">100</vertical>
-                                    </sizing>
-                                </scroll>
-                            </children>
+                        <scroll direction="vertical">
+                            <flow-layout direction="vertical" id="message-container">
+                                <children>
+                                </children>
+                                <gap>4</gap>
+                            </flow-layout>
+                            <sizing>
+                                <horizontal method="fixed">320</horizontal>
+                                <vertical method="fixed">192</vertical>
+                            </sizing>
                             <surface>
                                 <panel-inset />
                             </surface>
                             <padding>
                                 <all>4</all>
                             </padding>
-                            <sizing>
-                                <horizontal method="fixed">320</horizontal>
-                                <vertical method="fixed">192</vertical>
-                            </sizing>
-                        </flow-layout>
+                        </scroll>
                         <flow-layout direction="horizontal">
                             <children>
                                 <text-box>
@@ -129,6 +134,14 @@
                     <horizontal method="fill">100</horizontal>
                 </sizing>
             </flow-layout>
+        </template>
+        <template name="recipient">
+            <button>
+                <sizing>
+                    <horizontal method="fill">100</horizontal>
+                    <vertical method="fixed">64</vertical>
+                </sizing>
+            </button>
         </template>
     </templates>
 </owo-ui>
