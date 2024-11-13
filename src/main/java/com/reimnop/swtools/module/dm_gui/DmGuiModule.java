@@ -2,6 +2,8 @@ package com.reimnop.swtools.module.dm_gui;
 
 import com.reimnop.swtools.module.BaseModule;
 import com.reimnop.swtools.SWTConfig;
+import com.reimnop.swtools.util.SWTUtil;
+import io.wispforest.owo.ui.parsing.UIParsing;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
@@ -36,8 +38,19 @@ public class DmGuiModule extends BaseModule {
     public void initialize() {
         super.initialize();
 
+        // register keybinds
         KeyBindingHelper.registerKeyBinding(openDmGuiKey);
 
+        // register custom components
+        UIParsing.registerFactory(SWTUtil.id("dm-player-head"), element -> {
+            var playerNameElements = element.getElementsByTagName("player-name");
+            var playerNameNode = playerNameElements.getLength() > 0 ? playerNameElements.item(0) : null;
+            var playerNameFirstChildNode = playerNameNode != null ? playerNameNode.getFirstChild() : null;
+            var playerName = playerNameFirstChildNode != null ? playerNameFirstChildNode.getNodeValue() : null;
+            return new DmPlayerHeadComponent(playerName);
+        });
+
+        // listen to events
         config.subscribeToIncomingMessagePattern(pattern -> incomingMessagePattern = Pattern.compile(pattern));
         config.subscribeToOutgoingMessagePattern(pattern -> outgoingMessagePattern = Pattern.compile(pattern));
     }
@@ -70,6 +83,7 @@ public class DmGuiModule extends BaseModule {
             }
 
             recipient.addMessage(new DmMessage(messageContent, DmMessage.Sender.OTHER));
+            recipient.setUnreadMessagesCount(recipient.getUnreadMessagesCount() + 1);
             return !config.consumeMessages();
         }
 

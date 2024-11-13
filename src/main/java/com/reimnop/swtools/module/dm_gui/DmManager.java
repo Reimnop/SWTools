@@ -39,6 +39,9 @@ public class DmManager {
             return false;
         }
         recipients.remove(name);
+        if (recipient == currentRecipient) {
+            setCurrentRecipient(null);
+        }
         recipientRemoved.invoke(this, recipient);
         return true;
     }
