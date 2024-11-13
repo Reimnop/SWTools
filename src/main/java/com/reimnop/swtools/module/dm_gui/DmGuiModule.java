@@ -1,17 +1,21 @@
 package com.reimnop.swtools.module.dm_gui;
 
+import com.reimnop.swtools.SWTools;
 import com.reimnop.swtools.module.BaseModule;
 import com.reimnop.swtools.SWTConfig;
 import com.reimnop.swtools.util.SWTUtil;
 import io.wispforest.owo.ui.parsing.UIParsing;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
-import net.minecraft.client.toast.SystemToast;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.text.Text;
 import org.lwjgl.glfw.GLFW;
 
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Paths;
 import java.util.regex.Pattern;
 
 public class DmGuiModule extends BaseModule {
@@ -50,6 +54,9 @@ public class DmGuiModule extends BaseModule {
             var playerName = playerNameFirstChildNode != null ? playerNameFirstChildNode.getNodeValue() : null;
             return new DmPlayerHeadComponent(playerName);
         });
+
+        // load our chat logs
+        loadChatLogs();
 
         // listen to events
         config.subscribeToIncomingMessagePattern(pattern -> incomingMessagePattern = Pattern.compile(pattern));
@@ -90,6 +97,9 @@ public class DmGuiModule extends BaseModule {
             var toastManager = MinecraftClient.getInstance().getToastManager();
             toastManager.add(new DmMessageToast(recipient.getName(), messageContent));
 
+            // save chat logs
+            saveChatLogs();
+
             return !config.consumeMessages();
         }
 
@@ -107,6 +117,10 @@ public class DmGuiModule extends BaseModule {
             }
 
             recipient.addMessage(new DmMessage(messageContent, DmMessage.Sender.THIS));
+
+            // save chat logs
+            saveChatLogs();
+
             return !config.consumeMessages();
         }
 
@@ -124,5 +138,38 @@ public class DmGuiModule extends BaseModule {
         if (openDmGuiKey.wasPressed() && client.currentScreen == null) {
             client.setScreen(new DmGuiScreen(dmManager));
         }
+    }
+
+    private void saveChatLogs() {
+        var value = dmManager.save();
+        var fabric = FabricLoader.getInstance();
+        var configDir = fabric.getConfigDir();
+        var filePath = configDir.resolve("swtools_dm_logs.json");
+        try (var out = new FileOutputStream(filePath.toFile())) {
+            out.write(value.getBytes(StandardCharsets.UTF_8));
+        } catch (IOException e) {
+            SWTools.LOGGER.error("Failed to save chat logs", e);
+        }
+    }
+
+    private void loadChatLogs() {
+        var fabric = FabricLoader.getInstance();
+        var configDir = fabric.getConfigDir();
+        var filePath = configDir.resolve("swtools_dm_logs.json");
+
+        String value = null;
+        try (var in = new FileInputStream(filePath.toFile())) {
+            value = new String(in.readAllBytes(), StandardCharsets.UTF_8);
+        } catch (FileNotFoundException e) {
+            SWTools.LOGGER.info("No chat logs to load");
+        } catch (IOException e) {
+            SWTools.LOGGER.error("Failed to load chat logs", e);
+        }
+
+        if (value == null) {
+            return;
+        }
+
+        dmManager.load(value);
     }
 }

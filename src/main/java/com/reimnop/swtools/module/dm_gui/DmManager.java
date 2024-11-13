@@ -1,5 +1,6 @@
 package com.reimnop.swtools.module.dm_gui;
 
+import com.google.gson.Gson;
 import com.reimnop.swtools.util.SWTEvent;
 import net.minecraft.client.MinecraftClient;
 import org.jetbrains.annotations.Nullable;
@@ -65,5 +66,54 @@ public class DmManager {
             return;
         }
         player.networkHandler.sendChatCommand(String.format("msg %s %s", recipient.getName(), message));
+    }
+
+    public String save() {
+        var dataModel = new DmDataModel(
+                recipients.values().stream()
+                        .map(recipient -> new DmDataModel.Recipient(
+                                recipient.getName(),
+                                recipient.getMessages().stream()
+                                        .map(message -> new DmDataModel.Recipient.Message(
+                                                message.content(),
+                                                message.sender() == DmMessage.Sender.THIS
+                                                        ? DmDataModel.Recipient.Message.Sender.THIS
+                                                        : DmDataModel.Recipient.Message.Sender.OTHER
+                                        ))
+                                        .toList()
+                        ))
+                        .toList()
+        );
+        var gson = new Gson();
+        return gson.toJson(dataModel);
+    }
+
+    public void load(String value) {
+        for (var recipient : recipients.values()) {
+            recipientRemoved.invoke(this, recipient);
+        }
+        recipients.clear();
+
+        var gson = new Gson();
+        var dataModel = gson.fromJson(value, DmDataModel.class);
+        for (var recipient : dataModel.getRecipients()) {
+            recipients.put(
+                    recipient.getName(),
+                    new DmRecipient(
+                            recipient.getName(),
+                            recipient.getMessages().stream()
+                                    .map(message -> new DmMessage(
+                                            message.getContent(),
+                                            message.getSender() == DmDataModel.Recipient.Message.Sender.THIS
+                                                    ? DmMessage.Sender.THIS
+                                                    : DmMessage.Sender.OTHER))
+                                    .toList()
+                    )
+            );
+        }
+
+        for (var recipient : recipients.values()) {
+            recipientAdded.invoke(this, recipient);
+        }
     }
 }
