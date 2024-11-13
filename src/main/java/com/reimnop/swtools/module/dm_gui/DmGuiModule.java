@@ -7,6 +7,7 @@ import io.wispforest.owo.ui.parsing.UIParsing;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
+import net.minecraft.client.toast.SystemToast;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.text.Text;
 import org.lwjgl.glfw.GLFW;
@@ -84,6 +85,11 @@ public class DmGuiModule extends BaseModule {
 
             recipient.addMessage(new DmMessage(messageContent, DmMessage.Sender.OTHER));
             recipient.setUnreadMessagesCount(recipient.getUnreadMessagesCount() + 1);
+
+            // send notification toast
+            var toastManager = MinecraftClient.getInstance().getToastManager();
+            toastManager.add(new DmMessageToast(recipient.getName(), messageContent));
+
             return !config.consumeMessages();
         }
 
