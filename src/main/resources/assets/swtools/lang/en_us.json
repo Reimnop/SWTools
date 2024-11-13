@@ -9,5 +9,11 @@
   "category.swtools": "SW Tools",
   "key.swtools.open_dm_gui": "Open Direct Message GUI",
   "title.swtools.dms": "Direct Messages",
-  "title.swtools.dm_recipients": "Recipients"
+  "title.swtools.dm_recipients": "Recipients",
+  "text.config.swtools.category.dmGui": "Direct Message GUI",
+  "text.config.swtools.option.dmGui.enable": "Enable",
+  "text.config.swtools.option.dmGui.consumeMessages": "Consume Messages",
+  "text.config.swtools.option.dmGui.incomingMessagePattern": "Incoming Message Pattern",
+  "text.config.swtools.option.dmGui.outgoingMessagePattern": "Outgoing Message Pattern",
+  "text.config.swtools.option.dmGui.commandPattern": "Command Pattern"
 }

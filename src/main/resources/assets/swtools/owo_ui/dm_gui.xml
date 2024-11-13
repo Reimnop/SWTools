@@ -1,5 +1,5 @@
 <owo-ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/wisp-forest/owo-lib/1.20/owo-ui.xsd">
+        xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/wisp-forest/owo-lib/1.21/owo-ui.xsd">
     <components>
         <flow-layout direction="horizontal">
             <children>
@@ -9,25 +9,44 @@
                             <text translate="true">title.swtools.dm_recipients</text>
                             <color>black</color>
                         </label>
+                        <flow-layout direction="horizontal">
+                            <children>
+                                <text-box id="recipient-search">
+                                    <sizing>
+                                        <horizontal method="expand">100</horizontal>
+                                        <vertical method="fixed">12</vertical>
+                                    </sizing>
+                                    <margins>
+                                        <all>-1</all>
+                                    </margins>
+                                </text-box>
+                                <button id="recipient-add">
+                                    <text>+</text>
+                                    <sizing>
+                                        <horizontal method="fixed">12</horizontal>
+                                        <vertical method="fixed">12</vertical>
+                                    </sizing>
+                                </button>
+                            </children>
+                            <gap>2</gap>
+                        </flow-layout>
                         <scroll direction="vertical">
                             <flow-layout direction="vertical" id="recipient-container">
                                 <children>
                                 </children>
+                                <gap>2</gap>
                             </flow-layout>
                             <sizing>
                                 <horizontal method="fill">100</horizontal>
-                                <vertical method="fixed">212</vertical>
+                                <vertical method="expand">100</vertical>
                             </sizing>
-                            <surface>
-                                <panel-inset />
-                            </surface>
                         </scroll>
                     </children>
                     <padding>
                         <all>6</all>
                     </padding>
                     <sizing>
-                        <horizontal method="fixed">96</horizontal>
+                        <horizontal method="fixed">136</horizontal>
                         <vertical method="fixed">238</vertical>
                     </sizing>
                     <gap>4</gap>
@@ -45,7 +64,7 @@
                             <flow-layout direction="vertical" id="message-container">
                                 <children>
                                 </children>
-                                <gap>4</gap>
+                                <gap>2</gap>
                             </flow-layout>
                             <sizing>
                                 <horizontal method="fixed">320</horizontal>
@@ -60,27 +79,27 @@
                         </scroll>
                         <flow-layout direction="horizontal">
                             <children>
-                                <text-box>
+                                <text-box id="message-box">
                                     <max-length>256</max-length>
                                     <sizing>
-                                        <horizontal method="fixed">300</horizontal>
+                                        <horizontal method="expand">100</horizontal>
                                         <vertical method="fixed">16</vertical>
                                     </sizing>
                                     <margins>
                                         <all>-1</all>
                                     </margins>
+                                    <active>false</active>
                                 </text-box>
-                                <button>
+                                <button id="send-button">
+                                    <text>▶</text>
                                     <sizing>
                                         <horizontal method="fixed">16</horizontal>
                                         <vertical method="fixed">16</vertical>
                                     </sizing>
+                                    <active>false</active>
                                 </button>
                             </children>
                             <gap>4</gap>
-                            <padding>
-                                <all>0</all>
-                            </padding>
                             <sizing>
                                 <horizontal method="fill">100</horizontal>
                                 <vertical method="fixed">16</vertical>
@@ -102,10 +121,10 @@
             </children>
             <horizontal-alignment>center</horizontal-alignment>
             <vertical-alignment>center</vertical-alignment>
-            <gap>6</gap>
-            <padding>
-                <all>8</all>
-            </padding>
+            <gap>4</gap>
+            <surface>
+                <vanilla-translucent />
+            </surface>
         </flow-layout>
     </components>
 
@@ -118,6 +137,7 @@
                             <label>
                                 <text>{{text}}</text>
                                 <color>black</color>
+                                <max-width>256</max-width>
                             </label>
                         </children>
                         <padding>
@@ -136,12 +156,64 @@
             </flow-layout>
         </template>
         <template name="recipient">
-            <button>
+            <flow-layout direction="horizontal">
+                <children>
+                    <texture id="pfp-texture" texture="swtools:textures/gui/placeholder.png" texture-width="16" texture-height="16" region-width="16" region-height="16">
+                        <sizing>
+                            <horizontal method="fixed">16</horizontal>
+                            <vertical method="fixed">16</vertical>
+                        </sizing>
+                    </texture>
+                    <flow-layout direction="vertical">
+                        <children>
+                            <label>
+                                <text>{{name}}</text>
+                                <color>black</color>
+                                <vertical-text-alignment>center</vertical-text-alignment>
+                                <line-height>8</line-height>
+                                <sizing>
+                                    <horizontal method="expand">100</horizontal>
+                                </sizing>
+                            </label>
+                        </children>
+                        <sizing>
+                            <horizontal method="expand">100</horizontal>
+                            <vertical method="fill">100</vertical>
+                        </sizing>
+                        <vertical-alignment>center</vertical-alignment>
+                    </flow-layout>
+                    <flow-layout direction="vertical">
+                        <children>
+                            <button id="switch-to">
+                                <text>▶</text>
+                                <sizing>
+                                    <horizontal method="fixed">12</horizontal>
+                                    <vertical method="fixed">12</vertical>
+                                </sizing>
+                                <margins>
+                                    <right>2</right>
+                                </margins>
+                            </button>
+                        </children>
+                        <sizing>
+                            <horizontal method="content">0</horizontal>
+                            <vertical method="fill">100</vertical>
+                        </sizing>
+                        <vertical-alignment>center</vertical-alignment>
+                    </flow-layout>
+                </children>
+                <surface>
+                    <panel />
+                </surface>
+                <padding>
+                    <all>4</all>
+                </padding>
+                <gap>2</gap>
                 <sizing>
                     <horizontal method="fill">100</horizontal>
-                    <vertical method="fixed">64</vertical>
+                    <vertical method="fixed">24</vertical>
                 </sizing>
-            </button>
+            </flow-layout>
         </template>
     </templates>
 </owo-ui>

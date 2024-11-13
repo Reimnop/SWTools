@@ -7,7 +7,13 @@ import java.util.List;
 public class ChatFilterConfig {
     public boolean enable = true;
     @Hook
-    public List<String> filterPatterns = List.of(".*");
+    public List<String> filterPatterns = List.of(
+            "Transaria.*",
+            "Nation ZilatraXR.*",
+            " \\[L\\].*",
+            "✉⬇ MSG.*",
+            "✉⬆ MSG.*"
+    );
     public FilterMode filterMode = FilterMode.ALLOW;
 
     public enum FilterMode {

@@ -17,11 +17,16 @@ public class ChatFilterModule extends BaseModule {
         filterPatterns = config.filterPatterns().stream()
                 .map(Pattern::compile)
                 .toList();
+    }
+
+    @Override
+    public void initialize() {
+        super.initialize();
 
         config.subscribeToFilterPatterns(filterPatterns ->
                 this.filterPatterns = filterPatterns.stream()
-                    .map(Pattern::compile)
-                    .toList());
+                        .map(Pattern::compile)
+                        .toList());
     }
 
     @Override
