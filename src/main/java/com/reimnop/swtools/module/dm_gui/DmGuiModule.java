@@ -93,9 +93,12 @@ public class DmGuiModule extends BaseModule {
             recipient.addMessage(new DmMessage(messageContent, DmMessage.Sender.OTHER));
             recipient.setUnreadMessagesCount(recipient.getUnreadMessagesCount() + 1);
 
-            // send notification toast
-            var toastManager = MinecraftClient.getInstance().getToastManager();
-            toastManager.add(new DmMessageToast(recipient.getName(), messageContent));
+            // send notification toast only if dm screen is not open
+            var minecraft = MinecraftClient.getInstance();
+            if (!(minecraft.currentScreen instanceof DmGuiScreen)) {
+                var toastManager = minecraft.getToastManager();
+                toastManager.add(new DmMessageToast(recipient.getName(), messageContent));
+            }
 
             // save chat logs
             saveChatLogs();
