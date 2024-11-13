@@ -163,7 +163,8 @@ public class DmGuiScreen extends BaseUIModelScreen<FlowLayout> {
         if (recipient != currentRecipient) {
             return;
         }
-        // TODO: Implement this if message removal will be a thing
+        var messageComponent = messageContainer.children().get(index);
+        messageContainer.removeChild(messageComponent);
     }
 
     private void onRecipientAdded(Object sender, DmRecipient recipient) {
