@@ -1,5 +1,6 @@
 package com.reimnop.swtools.module.dm_gui;
 
+import com.mojang.blaze3d.platform.GlStateManager;
 import com.reimnop.swtools.util.SWTTimeout;
 import io.wispforest.owo.ui.base.BaseOwoToast;
 import io.wispforest.owo.ui.component.Components;
@@ -9,6 +10,8 @@ import io.wispforest.owo.ui.core.Color;
 import io.wispforest.owo.ui.core.Insets;
 import io.wispforest.owo.ui.core.Sizing;
 import io.wispforest.owo.ui.core.Surface;
+import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.toast.ToastManager;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 
@@ -58,5 +61,17 @@ public class DmMessageToast extends BaseOwoToast<FlowLayout> {
                 .gap(4)
                 .padding(Insets.of(6))
                 .surface(Surface.PANEL));
+    }
+
+    @Override
+    public Visibility draw(DrawContext context, ToastManager manager, long startTime) {
+        try {
+            GlStateManager._enableScissorTest();
+            return super.draw(context, manager, startTime);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            GlStateManager._disableScissorTest();
+        }
     }
 }
